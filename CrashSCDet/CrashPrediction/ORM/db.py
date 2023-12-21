@@ -1,10 +1,12 @@
 import sys,os
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"Commons"))
-
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
 from Common.allConfigures import Allconfiguration
 import sqlalchemy
 from sqlalchemy.orm import session, sessionmaker,scoped_session
-from dbmodules import Processing, ModuleBase
+from .dbmodules import Processing, ModuleBase
 from sqlalchemy.pool import QueuePool
 import pandas as pd
 

@@ -1,8 +1,8 @@
 {
-  "api_key" : "xxxxx",
-  "username" : "xxx",
-  "password" : "xxx",
+  "api_key" : "F28FFCG2A6N165EZIFCW8XE8CYMJG727AZ",
+  "username" : "root",
+  "password" : "19980516",
   "host" : "localhost",
-  "database" : "crashprediction",
+  "database" : "crashscdet",
   "poolsize" : 10
 }

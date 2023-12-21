@@ -1,6 +1,6 @@
 from typing import *
 import solcast
-from dbmodules import CountMetric
+from orm.dbmodules import CountMetric
 
 
 """

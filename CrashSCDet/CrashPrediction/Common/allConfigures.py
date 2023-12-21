@@ -1,6 +1,6 @@
 import simplejson
 import os
-
+from ORM import dbmodules
 
 class Allconfiguration:
     pardir = os.path.dirname(__file__)

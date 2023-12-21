@@ -3,10 +3,10 @@ import solcx
 import solcast
 import time, os, sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"common"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"orm"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"tools"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"cores"))
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
 
 from typing import List
 from sqlalchemy.orm import *
@@ -56,30 +56,31 @@ class Extracting:
           }
         }"""
         self.contract_src_path_skeleton = contract_src_path_skeleton
-        self.allow_paths = "H:\\Shared\\Smart_Contract_Source_Code"
+        # self.allow_paths = "H:\\Shared\\Smart_Contract_Source_Code"
         self.allow_paths = contract_root_path
         self.contract_root_path = contract_root_path
 
 
     def _setMostSuitableVersion(self, versions: str):
-       
-        # 
-        assert str
-        # 
-        lst = versions.split(";")
+        print("_setMostSuitableVersion:"+versions)
+        solcx.set_solc_version_pragma(versions)
+        # # 
+        # assert str
+        # # 
+        # lst = versions.split("")
         # print(lst)
-        if len(lst) == 1:
+        # if len(lst) == 1:
             
-            solcx.set_solc_version_pragma(lst[0])
-        else:
+        #     solcx.set_solc_version_pragma(lst[0])
+        # else:
             
-            tempset = set()
-            for vv in lst:
-                tempset.add(solcx.set_solc_version_pragma(vv))
-            # 
-            # TODO: 
-            mostSuitableVersion = max(tempset)
-            solcx.set_solc_version_pragma(mostSuitableVersion.__str__())
+        #     tempset = set()
+        #     for vv in lst:
+        #         tempset.add(solcx.set_solc_version_pragma(vv))
+        #     # 
+        #     # TODO: 
+        #     mostSuitableVersion = max(tempset)
+        #     solcx.set_solc_version_pragma(mostSuitableVersion.__str__())
 
 
     def _getRootNode(self, contractAddr: str, versionString: str)->solcast.nodes.NodeBase:
@@ -135,7 +136,22 @@ class Extracting:
                 dbsession.flush()
                 dbsession.commit()
                 print("sumbit: %d times" %((interval-1) // submitInteral +1))
+    def _getSolidityVersions(self, file_path):
+        pragma_line = ""
 
+        try:
+            with open(os.path.join(contract_root_path,file_path), 'r') as file:
+                for line in file:
+                    # 去除行首和行尾的空白字符
+                    line = line.strip()
+                    if line.startswith("pragma solidity"):
+                        pragma_line = line
+                        break  # 找到第一个符合条件的行就停止循环
+
+        except FileNotFoundError:
+            print(f"文件 '{file_path}' 未找到。")
+
+        return set([pragma_line])
     def _extractComplexityMetric(self, dbsession: session, contractAddress:str, rootNode: solcast.nodes.NodeBase) -> bool:
         
         try:
@@ -315,11 +331,11 @@ if __name__ == '__main__':
     # contract_src_path_skeleton= "D:\\\contractsrcs\\\%s.sol"
     # contract_root_path = r"D:\\contractsrcs"
 
-    contract_src_path_skeleton = "H:\\\Shared\\\Smart_Contract_Source_Code\\\%s.txt"
-    contract_root_path = r"H:\\Shared\\Smart_Contract_Source_Code"
+    contract_src_path_skeleton = r"/home/debian/CrashSCDet/DATA/test-solidity/%s.sol"
+    contract_root_path = r"/home/debian/CrashSCDet/DATA/test-solidity"
 
     instance = Extracting(contract_src_path_skeleton, contract_root_path=contract_root_path)
-    # instance._initProcessingStateTable(dbsession)
+    instance._initProcessingStateTable(dbsession)
     instance.extractBatchContractFeature(dbsession, min_id=0, max_id=60000, batchSize=300)
 
     dbsession.close()

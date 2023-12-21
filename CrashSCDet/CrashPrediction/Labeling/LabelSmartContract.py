@@ -1,6 +1,8 @@
 import os,time,sys
-sys.path.append(os.path.join(os.path.dirname(__file__), os.path.pardir, "ORM"))
-
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
 from ORM import dbmodules, db
 from sqlalchemy.orm import query, scoped_session
 from Labeling.EtherscanAPI import EtherscanAPI
@@ -27,7 +29,7 @@ class LabelSmarContract:
             templist = []
             templist_2 = []
             for file in files:
-                if file.endswith("txt"):
+                if file.endswith("sol"):
                     templist.append(dbmodules.Processing(contractAddr=os.path.splitext(file)[0],isprocessed=False))
                     templist_2.append(dbmodules.SmartContract(contractAddr=os.path.splitext(file)[0],label='none'))
                     interval = interval +1
@@ -248,11 +250,11 @@ class LabelSmarContract:
 
 
 if __name__ == '__main__':
-    path = "path_to_data"
+    path = r"C:\Users\tc\Desktop\test-solidity"
     lsc = LabelSmarContract(path)
     sess = db.DBOperator().getScopedSession()
     # init 
-    # lsc.initDBofContract(session=sess, submitInteral=200)
+    lsc.initDBofContract(session=sess, submitInteral=200)
     #
     #  
     lsc.labelBatchSmartContract(session=sess,min_id=0, max_id=30000, batchSize=5000)

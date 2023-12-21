@@ -1,5 +1,5 @@
 import solcast
-from dbmodules import ObjectOrientedMetric
+from orm.dbmodules import ObjectOrientedMetric
 from tools.basic_information import BasicInformation
 
 """

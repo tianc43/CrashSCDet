@@ -1,6 +1,6 @@
 from typing import *
 import solcast
-from dbmodules import LanguageRelatedMetric
+from orm.dbmodules import LanguageRelatedMetric
 
 """
 """
