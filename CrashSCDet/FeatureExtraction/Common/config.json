@@ -1,7 +1,7 @@
 {
   "username" : "root",
-  "password" : "1234",
+  "password" : "19980516",
   "host" : "localhost",
-  "database" : "crashfeatureextraction",
+  "database" : "crashscdet",
   "poolsize" : 5
 }

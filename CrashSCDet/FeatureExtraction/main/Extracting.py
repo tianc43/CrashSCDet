@@ -3,18 +3,19 @@ import solcx
 import solcast
 import time, os, sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"common"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"orm"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"tools"))
-sys.path.append(os.path.join(os.path.dirname(__file__),os.path.pardir,"cores"))
+
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
 
 from typing import List
 from sqlalchemy.orm import *
 from sqlalchemy import *
 from sqlalchemy.orm import query, scoped_session, session
-from orm.dbmodules import *
-from orm.db import *
-from common.mylogger import logger
+from ORM.dbmodules import *
+from ORM.db import *
+from Common.mylogger import logger
 
 from cores.count_metric_extraction import CountMetricCalculator
 from cores.language_related_extraction import LanguageRelatedCalculator
@@ -68,7 +69,8 @@ class Extracting:
         # 确保传入的不是空串
         assert str
         # 将数据库中的数据分割出来
-        lst = versions.split(";")
+        # lst = versions.split(";")
+        lst = [versions]
         # print(lst)
         if len(lst) == 1:
             # 只有一个
@@ -193,12 +195,13 @@ class Extracting:
         """
         try:
 
-            cpmResult: ComplexityMetric = ComplexityCalculator(contract_addr=contractAddress,
+            calculator = ComplexityCalculator(contract_addr=contractAddress,
                                                            contract_path=os.path.join(self.contract_root_path,
                                                                                      contractAddress + "." +
                                                                                      self.contract_src_path_skeleton.split(
                                                                                          ".")[1]),
-                                                          rootNode=rootNode).getComplexityMetric()
+                                                          rootNode=rootNode)
+            cpmResult: ComplexityMetric = calculator.getComplexityMetric()
         except Exception as e:
             logger.error(
                 "|_____Extracting ComplexityMetric for Contract:{contract} ERROR: {emsg}".format(contract=contractAddress,
@@ -397,8 +400,8 @@ if __name__ == '__main__':
     # contract_src_path_skeleton= "D:\\\contractsrcs\\\%s.sol"
     # contract_root_path = r"D:\\contractsrcs"
 
-    contract_src_path_skeleton = "H:\\\Shared\\\Smart_Contract_Source_Code\\\%s.txt"
-    contract_root_path = r"H:\\Shared\\Smart_Contract_Source_Code"
+    contract_src_path_skeleton = "/home/debian/CrashSCDet/DATA/test-solidity/%s.sol"
+    contract_root_path = r"/home/debian/CrashSCDet/DATA/test-solidity"
 
     instance = Extracting(contract_src_path_skeleton, contract_root_path=contract_root_path)
     # 该方法只调用一次

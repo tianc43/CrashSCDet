@@ -1,6 +1,11 @@
 from typing import *
 import solcast
-from dbmodules import LanguageRelatedMetric
+import os,sys
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
+from ORM.dbmodules import LanguageRelatedMetric
 
 """
 计算solidity 开发语言相关的特征

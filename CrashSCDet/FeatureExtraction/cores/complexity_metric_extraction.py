@@ -1,5 +1,10 @@
 import solcast, re
-from dbmodules import ComplexityMetric
+import sys,os
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
+from ORM.dbmodules import ComplexityMetric
 from tools.basic_information import BasicInformation
 
 """
@@ -103,7 +108,7 @@ class ComplexityCalculator:
         返回合约中，最大的继承深度
         """
         # 1 从合约的主方法入手
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 一定是只返回一个节点
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
@@ -119,7 +124,7 @@ class ComplexityCalculator:
         实际计算CBO
         @reference ``Towards Analyzing the Complexity Landscape of solidity based ethereum smart contracts ``
         """
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
 
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',

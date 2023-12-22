@@ -1,5 +1,10 @@
 import solcast
-from dbmodules import ObjectOrientedMetric
+import sys,os
+# 获取当前文件所在目录的父目录，并将其添加到sys.path中
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
+sys.path.append(project_root)
+from ORM.dbmodules import ObjectOrientedMetric
 from tools.basic_information import BasicInformation
 
 """
@@ -77,7 +82,7 @@ class ObjectOrientedCalculator:
         """
         返回主合约继承的合约的数量，就是源代码中直接继承的数量
         """
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 一定是只返回一个节点
         # mainnode = self.rootNode.children(include_children=True,
         #                  filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract', 'name': mainContractName})[0]
@@ -90,7 +95,7 @@ class ObjectOrientedCalculator:
         """
         返回主合约所有的依赖数，一方面主合约继承了一些合约，另一方面这些被继承的合约也可能继承了其他的合约，所有统计主合约的所有以来
         """
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 一定是只返回一个节点
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
@@ -123,7 +128,7 @@ class ObjectOrientedCalculator:
         返回合约中，最大的继承深度
         """
         # 1 从合约的主方法入手
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 一定是只返回一个节点
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
@@ -142,7 +147,7 @@ class ObjectOrientedCalculator:
         实际计算CBO
         @reference ``Towards Analyzing the Complexity Landscape of solidity based ethereum smart contracts ``
         """
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
 
         # mainnode = self.rootNode.children(include_children=True,
         #                             filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',

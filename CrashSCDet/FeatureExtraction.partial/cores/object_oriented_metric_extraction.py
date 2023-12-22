@@ -59,7 +59,7 @@ class ObjectOrientedCalculator:
 
     def _getCountContractBase(self)->float:
    
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 
         # mainnode = self.rootNode.children(include_children=True,
         #                  filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract', 'name': mainContractName})[0]
@@ -70,7 +70,7 @@ class ObjectOrientedCalculator:
 
     def _getCountDependence(self) -> float:
      
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
@@ -103,7 +103,7 @@ class ObjectOrientedCalculator:
         
         """
         # 1 
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
         # 
         # mainnode = self.rootNode.children(include_children=True,
         #                                   filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
@@ -122,7 +122,7 @@ class ObjectOrientedCalculator:
         
         @reference ``Towards Analyzing the Complexity Landscape of solidity based ethereum smart contracts ``
         """
-        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip()]
+        mainContractName: str = BasicInformation.MainContract[self.contract_addr.strip().lower()]
 
         # mainnode = self.rootNode.children(include_children=True,
         #                             filters={'nodeType': 'ContractDefinition', 'contractKind': 'contract',
