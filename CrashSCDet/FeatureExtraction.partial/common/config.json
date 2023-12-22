@@ -1,0 +1,7 @@
+{
+  "username" : "root",
+  "password" : "19980516",
+  "host" : "localhost",
+  "database" : "crashscdet",
+  "poolsize" : 5
+}
